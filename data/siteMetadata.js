@@ -6,8 +6,8 @@ const siteMetadata = {
   description: 'Personal blog on my learning and experience in product and startups world',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
-  siteRepo: 'https://github.com/timlrx/tailwind-nextjs-starter-blog',
+  siteUrl: 'https://www.thepmcareer.com',
+  siteRepo: 'https://github.com/ajitesh123/tailwind-css-starter-blog',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
   socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
   email: 'ajiteshleo@gmail.com',
