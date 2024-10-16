@@ -1,0 +1,232 @@
+---
+title: 'Pytest Testing Guide'
+date: '2024-10-16'
+tags: ['python', 'testing', 'pytest']
+draft: false
+summary: 'A comprehensive guide to using Pytest for effective Python testing'
+---
+
+# Pytest Testing Guide
+
+## Overview
+
+This guide covers the essentials of using Pytest for Python testing, including setup, writing tests, mocking, running tests, and generating reports.
+
+- [1. Setup](#1-setup)
+- [2. Writing Tests](#2-writing-tests)
+- [3. Mocking](#3-mocking)
+- [4. Running Tests](#4-running-tests)
+- [5. Test Reports](#5-test-reports)
+- [6. Fixtures](#6-fixtures)
+- [7. Additional Notes](#7-additional-notes)
+
+## 1. Setup
+
+### Packages to Install
+
+Install the following packages for a comprehensive testing setup:
+
+```bash
+pip install pytest pytest-mock pytest-asyncio pytest-cov mock
+```
+
+### pytest.ini Configuration
+
+Create a `pytest.ini` file at the root of your project with the following configuration:
+
+```ini
+[pytest]
+pythonpath = .
+addopts = -v -s
+testpaths = tests
+log_cli = True
+log_cli_level = INFO
+
+asyncio_mode = auto
+
+norecursedirs = mocks
+
+python_files = *
+python_classes = Test*
+python_functions = test_*
+```
+
+### Folder Organization
+
+Organize your project structure as follows:
+
+```
+project/
+│
+├── src/
+│   └── your_module/
+│       ├── __init__.py
+│       └── your_code.py
+│
+├── tests/
+│   ├── __init__.py
+│   └── unittest/
+│       └── your_module/
+│           ├── __init__.py
+│           └── test_your_code.py
+│
+├── pytest.ini
+├── requirements.txt
+└── setup.py
+```
+
+## 2. Writing Tests
+
+### How to Test
+
+- **Unit Tests**: Test individual functions or classes in isolation.
+- **Integration Tests**: Test the interaction between different modules or services.
+- **Async Tests**: Test asynchronous code using pytest-asyncio.
+
+### Naming Conventions
+
+- Test Files: Prefix with `test_` or suffix with `_test.py`.
+- Test Functions: Prefix with `test_`.
+- Test Classes: Prefix with `Test`.
+
+### Guidelines
+
+1. Use Arrange-Act-Assert (AAA) structure.
+2. Ensure test isolation.
+3. Use descriptive names for tests.
+4. Keep tests simple and focused.
+
+## 3. Mocking
+
+### When to Mock
+
+- External Dependencies
+- Time-Dependent Code
+- Complex Objects
+
+### Using @patch
+
+```python
+from unittest.mock import patch
+
+@patch('src.git_providers.repository_factory.RepositoryFactory.create_repository', return_value=mock_repo)
+@patch('src.rag.rag.Rag', return_value=mock_rag)
+@patch('src.llm.llm.AnthropicLLM', return_value=mock_llm)
+@patch('yaml.safe_load')
+def test_load_tracker(mock_yaml_load, mock_anthropic, mock_rag, mock_repo_factory):
+    # Test implementation
+```
+
+### MagicMock
+
+```python
+from unittest.mock import MagicMock
+
+mock = MagicMock()
+mock.some_method.return_value = 'mocked!'
+assert mock.some_method() == 'mocked!'
+```
+
+## 4. Running Tests
+
+### General Commands
+
+```bash
+# Run all tests
+pytest
+
+# Run with coverage
+pytest --cov=src
+```
+
+### Running Specific Tests
+
+```bash
+# Run a specific test file
+pytest tests/unittest/connectors/git/github_repository.py
+
+# Run a specific test function
+pytest tests/unittest/connectors/git/github_repository.py -k test_stage_and_commit_and_push_with_installation_id
+
+# Run tests from a module
+pytest -m "module_name"
+
+# Run failed tests from last run
+pytest --last-failed
+```
+
+### Async Tests
+
+```python
+import pytest
+
+@pytest.mark.asyncio
+async def test_async_function():
+    result = await some_async_function()
+    assert result == expected
+```
+
+## 5. Test Reports
+
+### Generating Coverage Reports
+
+```bash
+# HTML Report
+pytest --cov=src --cov-report=html
+
+# Terminal Report
+pytest --cov=src --cov-report=term
+```
+
+### Viewing Reports via HTTP Server
+
+```bash
+python -m http.server --directory htmlcov
+```
+
+## 6. Fixtures
+
+### Using yield in Fixtures
+
+```python
+import pytest
+
+@pytest.fixture
+def resource_setup_teardown():
+    # Setup code
+    resource = create_resource()
+    yield resource
+    # Teardown code
+    resource.cleanup()
+```
+
+## 7. Additional Notes
+
+### Patching Best Practices
+
+```python
+# Correct
+@patch('package.module.ClassName')
+
+# Incorrect
+@patch('package.other_module.ClassName')
+```
+
+### Example of Complex Mocking
+
+```python
+from unittest.mock import patch, MagicMock
+
+@patch('yaml.safe_load', return_value={'key': 'value'})
+@patch('src.llm.llm.AnthropicLLM', return_value=MagicMock())
+def test_complex_behavior(mock_yaml_load, mock_llm):
+    # Test implementation using mock_yaml_load and mock_llm
+    pass
+```
+
+### Best Practices
+
+1. Keep tests independent
+2. Use descriptive assertions
+3. Maintain readability
+4. Regularly run tests
