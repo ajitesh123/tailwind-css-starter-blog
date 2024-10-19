@@ -8,29 +8,36 @@ summary: 'A comprehensive guide to using Pytest for effective Python testing'
 
 # Pytest Testing Guide
 
+I've learned it the hard way that even for prototype, we should write tests. And despite everything out there, testing isn't easy.
+
+This is a bit surprising given so mnay LLM application are available for testing. But most of them are not production ready. And truth is if you understand the basics of testing, you will just be stuck. These LLM applications churns bunch of tests but mock what needs to be tested and tests what needs to mocked.
+
 ## Overview
 
-This guide covers the essentials of using Pytest for Python testing, including setup, writing tests, mocking, running tests, and generating reports.
+This guide cover my notes that I prepared for building testing strategy for Archie AI. I have tried to apply same principle in this [open source project](https://github.com/ajitesh123/auto-review-ai) as a reference.
 
 - [1. Setup](#1-setup)
 - [2. Writing Tests](#2-writing-tests)
 - [3. Mocking](#3-mocking)
-- [4. Running Tests](#4-running-tests)
-- [5. Test Reports](#5-test-reports)
+- [4. Patching](#4-patching)
+- [5. Running Tests](#5-running-tests)
 - [6. Fixtures](#6-fixtures)
-- [7. Additional Notes](#7-additional-notes)
 
 ## 1. Setup
 
 ### Packages to Install
 
-Install the following packages for a comprehensive testing setup:
+This is the easiste part. Make sure you have following packages installed.
 
 ```bash
 pip install pytest pytest-mock pytest-asyncio pytest-cov mock
 ```
 
 ### pytest.ini Configuration
+
+This is the most important file. It is used to configure pytest. It is used to tell pytest where to find the tests, what to test and how to test.
+
+We learned about it a bit late, and that created a lot of issues. This files offers a lot of flexibility. For exapple, eventhough our files don;t started with `test_`, pysted worked as used wildcard for python files below.
 
 Create a `pytest.ini` file at the root of your project with the following configuration:
 
@@ -53,7 +60,11 @@ python_functions = test_*
 
 ### Folder Organization
 
-Organize your project structure as follows:
+While there are different conventions, I found following structure to be most effective. That is reflect the projects structure in your tests/ folder.
+
+We choose to not name each file with `test_` prefix. But that's just a personal choice. You can choose to name each file with `test_` prefix if you like, which can the work with defualt pytests ini configuration.
+
+Option 1: when not using `test_` prefix
 
 ```
 project/
@@ -75,36 +86,249 @@ project/
 └── setup.py
 ```
 
+Option 2: when using `test_` prefix
+
+```
+project/
+│
+├── src/
+│   └── your_module/
+│       ├── __init__.py
+│       └── your_code.py
+│
+├── tests/
+│   ├── your_module/
+│       └── test_your_code.py
+│
+├── pytest.ini
+├── requirements.txt
+```
+
 ## 2. Writing Tests
 
-### How to Test
+Repeating the basics here, but make sure you;re clear what tests are you writing:
 
 - **Unit Tests**: Test individual functions or classes in isolation.
 - **Integration Tests**: Test the interaction between different modules or services.
-- **Async Tests**: Test asynchronous code using pytest-asyncio.
 
-### Naming Conventions
+Integeration tests are often costly and only run at time of PR merge or push vs unit tests are run often (perhaps on every commit).
 
-- Test Files: Prefix with `test_` or suffix with `_test.py`.
-- Test Functions: Prefix with `test_`.
-- Test Classes: Prefix with `Test`.
+Some tips you might want to follow:
 
-### Guidelines
+1. Use Arrange-Act-Assert (AAA) structure:
+   The idea of this structure is to make sure that your test is clear and easy to understand. It is just a suggestion and not a strict rule.
 
-1. Use Arrange-Act-Assert (AAA) structure.
+An example of this structure is following:
+
+```python
+def test_example():
+    # Arrange
+    a = 1
+    b = 2
+
+    # Act
+    c = a + b
+
+    # Assert
+    assert c == 3
+```
+
+This just makes it an easy read for your fellow developers.
+
 2. Ensure test isolation.
+   As a best practice, you want to keep each test as small and focused as possible. This makes it easier to understand and maintain.
+
+That means:
+
+- Don't want to test multiple things in a single test.
+- Don't want to use any external dependencies in your tests. If you do, you should mock them.
+- Don't share any state between tests. If you do, you should mock them.
+- Generate and destroy any resources you need in the test. Unless it's state doesn't affect other tests.
+
 3. Use descriptive names for tests.
-4. Keep tests simple and focused.
+   When the test fails, the key information highlighted is the test name. It can save you a lot time if you name the test well.
+
+General convention you can follow is:
+
+```
+test_<component>_<functionality>_<expected behavior>
+
+# Examples
+def test_github_repository_create_pull_request_with_installation_id():
+    #test_<github_repo>_<create_pr>_<with_installation_id>
+    pass
+
+def test_jira_repository_create_issue_with_project_and_summary():
+    #test_<jira_repo>_<create_issue>_<with_project_and_summary>
+    pass
+
+def test_jira_repository_create_issue_with_project_and_summary_and_description():
+    #test_<jira_repo>_<create_issue>_<with_project_and_summary_and_description>
+    pass
+```
 
 ## 3. Mocking
 
-### When to Mock
+This is one piece that we struggled with:
 
-- External Dependencies
-- Time-Dependent Code
-- Complex Objects
+- What to mock: If you mock everything, you are not testing anything. You need to mock only what is necessary.
+- How to mock: You need to mock only what is necessary and understand whether it's synchronous or asynchronous, it's methods etc
 
-### Using @patch
+### What to Mock
+
+- **Isolate the Unit of Work:** Only mock the parts of your system that interact with external resources or are outside the scope of the test. Avoid mocking everything, as this can lead to tests that pass without actually verifying the behavior of your code.
+- **Focus on External Dependencies:** Common candidates for mocking include:
+  - **I/O Operations:** File systems, network calls, databases.
+  - **Third-Party Services:** APIs, external libraries.
+  - **Time-Dependent Functions:** `time.sleep()`, `datetime.now()`.
+
+### How to Mock
+
+- **Choose the Right Mock Type:**
+
+  - **`Mock`:** A general-purpose mock object that can emulate any Python object. Use it when you need flexibility.
+  - **`MagicMock`:** A subclass of `Mock` with preconfigured magic methods. Ideal for mocking objects that require magic methods like `__str__`, `__len__`, etc.
+
+- **Understand Sync vs. Async:**
+  - **Synchronous Code:** Use `Mock` or `MagicMock` for standard functions and methods.
+  - **Asynchronous Code:** Use `AsyncMock` to mock `async` functions and methods, ensuring they behave correctly with `await`.
+
+```python
+from unittest.mock import Mock
+
+# Example: Mocking a simple function
+dependency = Mock(return_value=42)
+
+def function_under_test():
+    return dependency()
+
+assert function_under_test() == 42
+```
+
+```python
+from unittest.mock import MagicMock
+
+# Example: Mocking an object that needs __str__
+mock_obj = MagicMock()
+mock_obj.__str__.return_value = "Mocked Object"
+
+assert str(mock_obj) == "Mocked Object"
+```
+
+```python
+import asyncio
+from unittest.mock import AsyncMock
+
+# Example: Mocking an async function
+async_dependency = AsyncMock(return_value="Async Result")
+
+async def async_function_under_test():
+    return await async_dependency()
+
+assert asyncio.run(async_function_under_test()) == "Async Result"
+```
+
+```python
+# Example: Using side_effect to raise an exception
+mock_func = Mock(side_effect=ValueError("An error occurred"))
+
+try:
+    mock_func()
+except ValueError as e:
+    assert str(e) == "An error occurred"
+```
+
+```python
+# Example: Using return_value for sequential returns
+mock_sequence = Mock(side_effect=[1, 2, 3])
+assert mock_sequence() == 1
+assert mock_sequence() == 2
+assert mock_sequence() == 3
+```
+
+For a comprehensive guide on mocking in Python, refer to the official [unittest.mock documentation](https://docs.python.org/3/library/unittest.mock.html).
+
+## 4. Patching
+
+Patching is a way to mock a function or method. It is often used to mock external dependencies.
+
+It's in essence part of mocking, but keeping it seperate as it's complex enough to deserve a section of its own.
+
+### How Patching Works
+
+The core principle of patching is to change the object that a name points to with another one, typically a mock object. Importantly, you patch where an object is looked up, not necessarily where it's defined. This distinction is crucial for effective patching.
+
+```python
+from unittest.mock import patch
+
+@patch('module.ClassName')
+def test_function(mock_class):
+    module.ClassName()
+    assert mock_class.called
+```
+
+In this example, `module.ClassName` is replaced with a mock object for the duration of the test.
+
+### Patching Methods and Properties
+
+You can patch methods and properties of objects as well:
+
+```python
+# Patching a method
+@patch.object(SomeClass, 'method_name')
+def test_method(mock_method):
+    instance = SomeClass()
+    instance.method_name()
+    mock_method.assert_called_once()
+
+# Patching a property
+@patch.object(SomeClass, 'property_name', new_callable=PropertyMock)
+def test_property(mock_property):
+    mock_property.return_value = 'mocked_value'
+    instance = SomeClass()
+    assert instance.property_name == 'mocked_value'
+```
+
+### Patching Techniques: Decorators vs. Context Managers
+
+Patching can be applied using decorators or context managers:
+
+1. Decorator approach (as seen in previous examples):
+
+```python
+@patch('module.ClassName')
+def test_function(mock_class):
+    # Test implementation
+```
+
+2. Context manager approach:
+
+```python
+def test_function():
+    with patch('module.ClassName') as mock_class:
+        # Test implementation
+```
+
+Use decorators for patching throughout an entire test function. Context managers are preferable when you need more fine-grained control over when the patch is applied and removed within a test.
+
+### Order of Application in Nested Patches
+
+When using multiple patch decorators, they are applied from bottom to top, while mock objects are passed to the decorated function in reverse order:
+
+```python
+@patch('module.Class2')
+@patch('module.Class1')
+def test(mock_class1, mock_class2):
+    module.Class1()
+    module.Class2()
+    assert mock_class1.called and mock_class2.called
+```
+
+In this example, `module.Class1` is patched first, but `mock_class1` is passed as the first argument to the test function.
+
+### Complex Patching Example
+
+Here's a more complex example demonstrating multiple patches:
 
 ```python
 from unittest.mock import patch
@@ -115,78 +339,153 @@ from unittest.mock import patch
 @patch('yaml.safe_load')
 def test_load_tracker(mock_yaml_load, mock_anthropic, mock_rag, mock_repo_factory):
     # Test implementation
+    # Note: mock objects are passed in reverse order of the decorators
 ```
 
-### MagicMock
-
-```python
-from unittest.mock import MagicMock
-
-mock = MagicMock()
-mock.some_method.return_value = 'mocked!'
-assert mock.some_method() == 'mocked!'
-```
+This example shows how to patch multiple dependencies, including methods (`create_repository`), classes (`Rag`, `AnthropicLLM`), and functions (`yaml.safe_load`).
 
 ## 4. Running Tests
+
+This is one of the easiest parts. Just run following commands:
 
 ### General Commands
 
 ```bash
-# Run all tests
 pytest
+```
 
-# Run with coverage
+- **Description**: Executes all the test cases in your project.
+- **Usage**: Navigate to your project's root directory in the terminal and run the `pytest` command. Pytest will automatically discover and run all tests following the naming conventions (`test_*.py` or `*_test.py`).
+
+#### Run Tests with Coverage Analysis
+
+```bash
 pytest --cov=src
 ```
 
-### Running Specific Tests
+#### Run Tests with Coverage Analysis
 
 ```bash
-# Run a specific test file
+pytest --cov=src
+```
+
+- **Description**: Runs all tests and generates a coverage report for the specified source directory (`src` in this case).
+- **Usage**: This command not only runs your tests but also checks which parts of the code are covered by the tests.
+- **Output**: After execution, you'll receive a coverage summary indicating the percentage of code covered by tests. For a more detailed report, you can add the `--cov-report` option, such as `--cov-report=html` to generate an HTML report.
+
+#### Run a Specific Test File
+
+```bash
 pytest tests/unittest/connectors/git/github_repository.py
+```
 
-# Run a specific test function
+- **Description**: Executes all tests within the specified test file.
+- **Usage**: Replace the file path with the path to the test file you wish to run.
+
+#### Run a Specific Test Function
+
+```bash
 pytest tests/unittest/connectors/git/github_repository.py -k test_stage_and_commit_and_push_with_installation_id
+```
 
-# Run tests from a module
+- **Description**: Runs a specific test function within a test file.
+- **Usage**: Use the `-k` option followed by the test function name to target specific tests.
+
+#### Run Tests from a Module
+
+```bash
 pytest -m "module_name"
+```
 
-# Run failed tests from last run
+- **Description**: Executes all tests that are marked with a specific module name.
+- **Usage**: Decorate your tests with `@pytest.mark.module_name` to categorize them, then use the `-m` option to run tests from that module.
+
+#### Run Failed Tests from Last Run
+
+```bash
 pytest --last-failed
 ```
 
-### Async Tests
+- **Description**: Re-runs only the tests that failed during the previous test run.
+- **Usage**: This is useful for quickly iterating on fixing tests without running the entire test suite again.
 
-```python
-import pytest
+### Viewing Coverage Reports with Python HTTP Server
 
-@pytest.mark.asyncio
-async def test_async_function():
-    result = await some_async_function()
-    assert result == expected
-```
+After generating a coverage report in HTML format, you can serve it locally using Python's built-in HTTP server for easy viewing in your web browser.
 
-## 5. Test Reports
+1. **Generate HTML Coverage Report**
 
-### Generating Coverage Reports
+   ```bash
+   pytest --cov=src --cov-report=html
+   ```
 
-```bash
-# HTML Report
-pytest --cov=src --cov-report=html
+   - **Description**: Generates an HTML coverage report in the `htmlcov` directory.
 
-# Terminal Report
-pytest --cov=src --cov-report=term
-```
+2. **Navigate to the Coverage Report Directory**
 
-### Viewing Reports via HTTP Server
+   ```bash
+   cd htmlcov
+   ```
 
-```bash
-python -m http.server --directory htmlcov
-```
+3. **Start Python HTTP Server**
+
+   ```bash
+   python -m http.server 8000
+   ```
+
+   - **Description**: Starts a local HTTP server on port `8000` serving the current directory.
+
+4. **View Coverage Report in Browser**
+
+   Open your web browser and navigate to `http://localhost:8000`. Click on `index.html` to view the detailed coverage report.
+
+   - **Note**: Ensure that port `8000` is not in use by another application. You can change the port number if necessary.
+
+### Additional Tips
+
+- **Verbose Output**
+
+  For more detailed test output, use the `-v` option:
+
+  ```bash
+  pytest -v
+  ```
+
+- **Running Tests with a Specific Keyword**
+
+  To run tests that match a specific keyword in their names or markers:
+
+  ```bash
+  pytest -k "keyword"
+  ```
+
+- **Excluding Files or Directories**
+
+  To exclude certain files or directories from testing, you can add a configuration in your `pytest.ini` or use command-line options.
+
+- **Parallel Test Execution**
+
+  To speed up test execution by running tests in parallel, consider using the `pytest-xdist` plugin:
+
+  ```bash
+  pytest -n auto
+  ```
+
+  - **Description**: Automatically detects the number of available CPU cores and runs tests in parallel.
+
+- **Caching Test Results**
+
+  Pytest can cache previous test results (in `.pytest_cache` directory) to optimize subsequent test runs. Use the `--cache-show` and `--cache-clear` options to view and manage the cache.
 
 ## 6. Fixtures
 
 ### Using yield in Fixtures
+
+Use `yield` in fixtures when you need to perform actions both before and after a test runs. This is particularly useful for resources that require explicit teardown, such as:
+
+- **Database Connections:** Establish a connection before the test and close it afterward.
+- **File Handling:** Open a file for writing in setup and ensure it's properly closed in teardown.
+- **External Services:** Start a mock server or service before the test and shut it down afterward.
 
 ```python
 import pytest
@@ -200,33 +499,35 @@ def resource_setup_teardown():
     resource.cleanup()
 ```
 
-## 7. Additional Notes
+### Fixture Scopes
 
-### Patching Best Practices
+Pytest offers different scopes for fixtures:
 
-```python
-# Correct
-@patch('package.module.ClassName')
+- `function` (default): Run once per test function
+- `class`: Run once per test class
+- `module`: Run once per module
+- `package`: Run once per package
+- `session`: Run once per test session
 
-# Incorrect
-@patch('package.other_module.ClassName')
-```
-
-### Example of Complex Mocking
+Choose the scope based on the resource lifecycle and test requirements:
 
 ```python
-from unittest.mock import patch, MagicMock
-
-@patch('yaml.safe_load', return_value={'key': 'value'})
-@patch('src.llm.llm.AnthropicLLM', return_value=MagicMock())
-def test_complex_behavior(mock_yaml_load, mock_llm):
-    # Test implementation using mock_yaml_load and mock_llm
-    pass
+@pytest.fixture(scope="module")
+def database_connection():
+    conn = create_db_connection()
+    yield conn
+    conn.close()
 ```
 
-### Best Practices
+Use broader scopes (e.g., `module` or `session`) for expensive setup operations, but be cautious of potential state sharing between tests.
 
-1. Keep tests independent
-2. Use descriptive assertions
-3. Maintain readability
-4. Regularly run tests
+### When to Use yield vs. return
+
+- Use `yield` when you need to perform cleanup actions after the test.
+- Use `return` when no cleanup is necessary, and you're simply providing a value.
+
+```python
+@pytest.fixture
+def simple_data():
+    return {"key": "value"}  # No cleanup needed
+```
