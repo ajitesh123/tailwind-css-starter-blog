@@ -90,7 +90,7 @@ project/
 │   └── unittest/
 │       └── your_module/
 │           ├── __init__.py
-│           └── test_your_code.py
+│           └── your_code.py
 │
 ├── pytest.ini
 ├── requirements.txt
@@ -196,7 +196,9 @@ def test_jira_repository_create_issue_with_project_and_summary_and_description()
 
 ### Mocking Basics
 
-[Mocking](#mock) involves creating [mock](#mock) objects that mimic the behavior of real objects in a controlled way. This allows you to test components in isolation.
+[Mocking](#mock) is like creating pretend objects for testing. These pretend objects act like real parts of your program, but you can control how they behave. This is useful when you want to test one part of your code without worrying about other parts.
+
+For example, imagine you're testing a function that sends an email. Instead of actually sending an email every time you run the test, you can create a mock email sender that pretends to send an email. This way, you can check if your function is trying to send the email correctly, without actually sending anything.
 
 #### What to Mock
 
@@ -222,8 +224,12 @@ We'll start with a simple example of mocking a function:
 ```python
 from unittest.mock import Mock
 
-# Create a mock object that will replace the real dependency.
-dependency = Mock(return_value=42)
+# Step 1: Create a mock object that will replace the real dependency.
+dependency = Mock()
+
+# Step 2: Define the behavior of the mock object.
+# Here, we set the return value of the mock object to 42.
+dependency.return_value = 42
 
 def function_under_test():
     """
@@ -233,15 +239,23 @@ def function_under_test():
     """
     return dependency()
 
+# Step 3: Use the mock object in the function under test.
+result = function_under_test()
+
+# Step 4: Verify the behavior of the function under test.
 # The assert statement checks if the function_under_test returns 42 as expected.
-assert function_under_test() == 42
+assert result == 42
+
+# Step 5: Verify that the mock object was called as expected.
+# This ensures that the dependency was actually used in the function.
+dependency.assert_called_once()
 ```
 
 In this example, we create a mock object to replace a dependency. By setting the `return_value` to 42, we ensure that our function under test always receives a predictable value, regardless of the actual implementation of the dependency.
 
 #### Using MagicMock
 
-Sometimes, you need mock an object that requires magic methods like `__str__`. Here's how you can do that:
+Occasionally, you may need to mock an object that includes magic methods such as `__str__` or `__len__`. Here's an example of how to achieve this:
 
 ```python
 from unittest.mock import MagicMock
@@ -298,7 +312,11 @@ For a comprehensive guide on [mocking](#mock) in Python, refer to the official [
 
 ### Patching Techniques
 
-[Patching](#patch) is a way to replace real objects in your code with [mocks](#mock) during a test. [Pytest](#pytest) offers two primary methods: `patch` and [monkeypatch](#monkeypatch).
+Patching is like putting a temporary sticker over part of your code during a test. It lets you replace real parts of your program with pretend ones (mocks) just for the duration of the test.
+
+Imagine your code uses a weather service to get the temperature. When testing, you don't want to actually connect to the weather service every time. Instead, you can "patch" the weather service part with a pretend one that always returns the temperature you want for your test.
+
+[Pytest](#pytest) offers two primary methods: `patch` and [monkeypatch](#monkeypatch).
 
 #### Using `patch`
 
