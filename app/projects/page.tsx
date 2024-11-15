@@ -16,6 +16,44 @@ export default function Projects() {
         </div>
         <div className="container py-12">
           <div className="space-y-12">
+            {/* AI for Product Leaders Course */}
+            <div className="space-y-6">
+              <h2 className="text-2xl font-bold">AI for Product Leaders</h2>
+              <div
+                className="overflow-hidden rounded-lg border border-gray-200"
+                style={{ maxWidth: '1200px' }}
+              >
+                <a
+                  href="https://aitutor.gumroad.com/l/aischoolforleaders"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    src="/static/images/ai-product-leaders.webp"
+                    alt="AI for Product Leaders Course"
+                    className="h-auto w-full"
+                  />
+                  <div className="p-4">
+                    <h3 className="mb-2 text-xl font-semibold">
+                      A Comprehensive Course on AI Application Development
+                    </h3>
+                    <p className="mb-4 text-gray-600">
+                      Learn to build AI applications with insights from Google Gemini and Archie AI
+                      experience. Complete the course in under 60 minutes.
+                    </p>
+                    <div className="space-y-2">
+                      <div className="flex items-center">
+                        <span className="font-semibold">Instructor:</span>
+                        <span className="ml-2">
+                          Ajitesh and Jinal Dalal - Director of Engineering, Google
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
             {/* PM Course */}
             <div className="space-y-6">
               <h2 className="text-2xl font-bold">
