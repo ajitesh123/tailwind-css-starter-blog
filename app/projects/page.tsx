@@ -26,7 +26,7 @@ export default function Projects() {
                 <img
                   src="/static/images/ai-product-leaders.webp"
                   alt="AI for Product Leaders Course"
-                  className="h-auto w-full object-cover"
+                  className="h-auto w-full border border-black/20 object-cover"
                 />
                 <div className="bg-gray-800 p-4">
                   <h3 className="mb-2 text-xl font-semibold text-white">
@@ -54,7 +54,7 @@ export default function Projects() {
                 <img
                   src="https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://cdn.filestackcontent.com/wHjiw0oJRSZTBXbBd0ty"
                   alt="PM Interview Prep Course"
-                  className="h-auto w-full object-cover"
+                  className="h-auto w-full border border-black/20 object-cover"
                 />
                 <div className="bg-gray-800 p-4">
                   <h3 className="mb-2 text-xl font-semibold text-white">
@@ -77,7 +77,7 @@ export default function Projects() {
                 <img
                   src="/static/images/archie ai.gif"
                   alt="Archie AI Demo"
-                  className="h-auto w-full object-cover"
+                  className="h-auto w-full border border-black/20 object-cover"
                 />
                 <div className="bg-gray-800 p-4">
                   <h3 className="mb-2 text-xl font-semibold text-white">
