@@ -4,131 +4,94 @@ export const metadata = genPageMetadata({ title: 'Projects' })
 
 export default function Projects() {
   return (
-    <>
+    <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-          <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+        <div className="space-y-2 pb-8 pt-6 text-center">
+          <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl md:text-5xl">
             Projects
           </h1>
-          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            Showcasing my latest projects and courses
-          </p>
+          <p className="text-lg text-white/80">Showcasing my latest projects and courses</p>
         </div>
-        <div className="container py-12">
-          <div className="space-y-12">
-            {/* AI for Product Leaders Course */}
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold">AI for Product Leaders</h2>
-              <div
-                className="overflow-hidden rounded-lg border border-gray-200"
-                style={{ maxWidth: '1200px' }}
-              >
-                <a
-                  href="https://aitutor.gumroad.com/l/aischoolforleaders"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src="/static/images/ai-product-leaders.webp"
-                    alt="AI for Product Leaders Course"
-                    className="h-auto w-full"
-                  />
-                  <div className="p-4">
-                    <h3 className="mb-2 text-xl font-semibold">
-                      A Comprehensive Course on AI Application Development
-                    </h3>
-                    <p className="mb-4 text-gray-600">
-                      Learn to build AI applications with insights from Google Gemini and Archie AI
-                      experience. Complete the course in under 60 minutes.
-                    </p>
-                    <div className="space-y-2">
-                      <div className="flex items-center">
-                        <span className="font-semibold">Instructor:</span>
-                        <span className="ml-2">
-                          Ajitesh and Jinal Dalal - Director of Engineering, Google
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
 
-            {/* PM Course */}
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold">
-                PM Course: A Simple Approach to Product Management Interviews
-              </h2>
-              {/* Increased max-width to 600px */}
-              <div
-                className="overflow-hidden rounded-lg border border-gray-200"
-                style={{ maxWidth: '1200px' }}
+        <div className="grid gap-8 py-12 md:grid-cols-2">
+          {/* AI for Product Leaders Course */}
+          <div className="space-y-4 text-center">
+            <h2 className="text-2xl font-bold text-white">AI for Product Leaders</h2>
+            <div className="mx-auto max-w-md overflow-hidden rounded-lg border border-gray-200/20">
+              <a
+                href="https://aitutor.gumroad.com/l/aischoolforleaders"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <a
-                  href="https://pm-interview-prep1.teachable.com/p/a-simple-approach-to-product-management-interviews"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src="https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://cdn.filestackcontent.com/wHjiw0oJRSZTBXbBd0ty"
-                    alt="A Simple Approach to Product Management Interviews"
-                    className="h-auto w-full"
-                  />
-                  <div className="p-4">
-                    <h3 className="mb-2 text-xl font-semibold">
-                      A Simple Approach to Product Management Interviews
-                    </h3>
-                    <p className="mb-4 text-gray-600">
-                      Prepare for your PM interviews with our comprehensive course.
-                    </p>
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span>Subscription:</span>
-                        <span>7 day free trial then $5/month</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span>One-Time Purchase:</span>
-                        <span>$50</span>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
+                <img
+                  src="/static/images/ai-product-leaders.webp"
+                  alt="AI for Product Leaders Course"
+                  className="h-auto w-full object-cover"
+                />
+                <div className="bg-gray-800 p-4">
+                  <h3 className="mb-2 text-xl font-semibold text-white">
+                    AI Application Development
+                  </h3>
+                  <p className="mb-4 text-sm text-white/70">
+                    Learn to build AI applications with insights from Google Gemini and Archie AI
+                    experience.
+                  </p>
+                  <div className="text-sm text-white/80">Instructors: Ajitesh and Jinal Dalal</div>
+                </div>
+              </a>
             </div>
+          </div>
 
-            {/* Archie AI Project */}
-            <div className="space-y-6 pt-12">
-              <h2 className="text-2xl font-bold">Project: Archie AI</h2>
-              <h3 className="text-xl">
-                Making Engineering Operations 10X Faster, Smarter, and Efficient
-              </h3>
-              <p>
-                I'm building an AI agent that revolutionizes engineering operations. Archie AI aims
-                to accelerate development processes and enhance productivity.
-              </p>
-              {/* Increased max-width to 600px */}
-              <div
-                className="overflow-hidden rounded-lg border border-gray-200"
-                style={{ maxWidth: '1200px' }}
+          {/* PM Course */}
+          <div className="space-y-4 text-center">
+            <h2 className="text-2xl font-bold text-white">PM Interview Prep</h2>
+            <div className="mx-auto max-w-md overflow-hidden rounded-lg border border-gray-200/20">
+              <a
+                href="https://pm-interview-prep1.teachable.com/p/a-simple-approach-to-product-management-interviews"
+                target="_blank"
+                rel="noopener noreferrer"
               >
+                <img
+                  src="https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://cdn.filestackcontent.com/wHjiw0oJRSZTBXbBd0ty"
+                  alt="PM Interview Prep Course"
+                  className="h-auto w-full object-cover"
+                />
+                <div className="bg-gray-800 p-4">
+                  <h3 className="mb-2 text-xl font-semibold text-white">
+                    Product Management Interviews
+                  </h3>
+                  <div className="space-y-2 text-sm text-white/70">
+                    <div>Subscription: 7 day free trial, $5/month</div>
+                    <div>One-Time Purchase: $50</div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          {/* Archie AI Project - Spanning full width */}
+          <div className="space-y-4 text-center md:col-span-2">
+            <h2 className="text-2xl font-bold text-white">Archie AI</h2>
+            <div className="mx-auto max-w-2xl overflow-hidden rounded-lg border border-gray-200/20">
+              <a href="https://www.getarchieai.com/" target="_blank" rel="noopener noreferrer">
                 <img
                   src="/static/images/archie ai.gif"
                   alt="Archie AI Demo"
-                  className="h-auto w-full"
+                  className="h-auto w-full object-cover"
                 />
-              </div>
-              <a
-                href="https://www.getarchieai.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 hover:underline"
-              >
-                Learn more about Archie AI
+                <div className="bg-gray-800 p-4">
+                  <h3 className="mb-2 text-xl font-semibold text-white">
+                    Archie AI: AI Engineer on your codebase
+                  </h3>
+                  <p className="mb-4 text-sm text-white/70">
+                    An AI agent that reviews pull requests, explains code, and helps fix bugs.
+                  </p>
+                </div>
               </a>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
