@@ -13,6 +13,7 @@ import Footer from '@/components/Footer'
 import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
+import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 
 // Initialize the Space Grotesk font with specific configurations
 // This uses Next.js built-in font optimization
@@ -142,6 +143,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {/* Footer component */}
             <Footer />
           </SectionContainer>
+          <VercelAnalytics />
         </ThemeProviders>
       </body>
     </html>
