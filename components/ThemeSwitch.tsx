@@ -53,6 +53,13 @@ const ThemeSwitch = () => {
   // When mounted on client, now we can show the UI
   useEffect(() => setMounted(true), [])
 
+  // Force dark theme when system is selected
+  useEffect(() => {
+    if (theme === 'system') {
+      setTheme('dark')
+    }
+  }, [theme, setTheme])
+
   return (
     <div className="mr-5 flex items-center">
       <Menu as="div" className="relative inline-block text-left">
