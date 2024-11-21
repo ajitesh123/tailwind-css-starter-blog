@@ -70,6 +70,15 @@ module.exports = {
           },
         },
       }),
+      keyframes: {
+        shuttle: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-3px)' },
+        },
+      },
+      animation: {
+        shuttle: 'shuttle 1s ease-in-out infinite',
+      },
     },
   },
   plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
