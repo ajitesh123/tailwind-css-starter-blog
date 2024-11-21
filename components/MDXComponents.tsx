@@ -6,6 +6,7 @@ import Image from './Image'
 import CustomLink from './Link'
 import TableWrapper from './TableWrapper'
 import CloudRevenue from './charts/CloudRevenue'
+import InvestmentMetrics from './charts/InvestmentMetrics'
 
 export const components: MDXComponents = {
   Image,
@@ -15,4 +16,5 @@ export const components: MDXComponents = {
   table: TableWrapper,
   BlogNewsletterForm,
   CloudRevenue,
+  InvestmentMetrics,
 }

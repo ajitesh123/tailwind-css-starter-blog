@@ -2,6 +2,7 @@
 
 import React from 'react'
 import dynamic from 'next/dynamic'
+import { useTheme } from 'next-themes'
 import {
   ComposedChart,
   Bar,
@@ -29,48 +30,71 @@ const data = [
 ]
 
 function CloudRevenueChart() {
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === 'dark'
+
+  const chartColors = {
+    background: isDark ? '#000000' : '#ffffff',
+    text: isDark ? '#ffffff' : '#000000',
+    grid: isDark ? '#333333' : '#e5e7eb',
+    tooltip: {
+      background: isDark ? '#1a1a1a' : '#ffffff',
+      border: isDark ? '#333333' : '#e5e7eb',
+      text: isDark ? '#ffffff' : '#000000',
+    },
+  }
+
   return (
-    <div className="h-full w-full rounded-lg bg-black p-4 shadow-lg">
-      <h2 className="mb-4 text-center text-xl font-bold text-white">
+    <div className={`h-full w-full rounded-lg p-4 shadow-lg ${isDark ? 'bg-black' : 'bg-white'}`}>
+      <h2 className={`mb-4 text-center text-xl font-bold ${isDark ? 'text-white' : 'text-black'}`}>
         Cloud Services Quarterly Revenue and YoY Growth
       </h2>
       <div className="h-96">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-            <XAxis dataKey="quarter" tick={{ fill: '#fff' }} axisLine={{ stroke: '#fff' }} />
+            <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
+            <XAxis
+              dataKey="quarter"
+              tick={{ fill: chartColors.text }}
+              axisLine={{ stroke: chartColors.text }}
+            />
             <YAxis
               yAxisId="left"
-              tick={{ fill: '#fff' }}
-              axisLine={{ stroke: '#fff' }}
+              tick={{ fill: chartColors.text }}
+              axisLine={{ stroke: chartColors.text }}
               label={{
                 value: 'Revenue (Billions USD)',
                 angle: -90,
                 position: 'insideLeft',
-                fill: '#fff',
+                fill: chartColors.text,
               }}
             />
             <YAxis
               yAxisId="right"
               orientation="right"
               domain={[0, 50]}
-              tick={{ fill: '#fff' }}
-              axisLine={{ stroke: '#fff' }}
-              label={{ value: 'YoY Growth (%)', angle: 90, position: 'insideRight', fill: '#fff' }}
+              tick={{ fill: chartColors.text }}
+              axisLine={{ stroke: chartColors.text }}
+              label={{
+                value: 'YoY Growth (%)',
+                angle: 90,
+                position: 'insideRight',
+                fill: chartColors.text,
+              }}
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: '#1a1a1a',
+                backgroundColor: chartColors.tooltip.background,
                 borderRadius: '8px',
-                border: '1px solid #333',
-                color: '#fff',
+                border: `1px solid ${chartColors.tooltip.border}`,
+                color: chartColors.tooltip.text,
               }}
               formatter={(value, name) => [
                 `${value}${name === 'Growth' ? '%' : 'B'}`,
                 name === 'Growth' ? 'YoY Growth' : name,
               ]}
             />
-            <Legend wrapperStyle={{ color: '#fff' }} />
+            <Legend wrapperStyle={{ color: chartColors.text }} />
             <Bar
               yAxisId="left"
               dataKey="AWS"
@@ -105,7 +129,7 @@ function CloudRevenueChart() {
               yAxisId="right"
               type="monotone"
               dataKey="Growth"
-              stroke="#FFFFFF"
+              stroke={chartColors.text}
               strokeWidth={3}
               dot={(props) => {
                 const { cx, cy, payload, index } = props
@@ -120,7 +144,6 @@ function CloudRevenueChart() {
 
                 return (
                   <g>
-                    {/* Animated outer circle */}
                     <circle
                       cx={cx}
                       cy={cy}
@@ -131,9 +154,7 @@ function CloudRevenueChart() {
                       opacity={0.5}
                       className="animate-pulse"
                     />
-                    {/* Inner circle */}
                     <circle cx={cx} cy={cy} r={4} fill={color} stroke="none" />
-                    {/* Animated value label */}
                     <text
                       x={cx}
                       y={cy - 15}
@@ -145,7 +166,7 @@ function CloudRevenueChart() {
                       <tspan
                         style={{
                           filter: 'drop-shadow(0 0 3px rgba(0,0,0,0.8))',
-                          backgroundColor: 'black',
+                          backgroundColor: chartColors.background,
                           padding: '2px 4px',
                           borderRadius: '3px',
                         }}
@@ -158,7 +179,7 @@ function CloudRevenueChart() {
               }}
               activeDot={{
                 r: 8,
-                stroke: '#FFF',
+                stroke: chartColors.text,
                 strokeWidth: 2,
                 fill: '#FF1493',
               }}
@@ -169,7 +190,7 @@ function CloudRevenueChart() {
           </ComposedChart>
         </ResponsiveContainer>
       </div>
-      <div className="mt-4 text-center text-sm text-gray-300">
+      <div className={`mt-4 text-center text-sm ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
         Data shown quarterly from Q1 2022 to Q3 2024
       </div>
     </div>
