@@ -8,6 +8,7 @@ import TableWrapper from './TableWrapper'
 import CloudRevenue from './charts/CloudRevenue'
 import InvestmentMetrics from './charts/InvestmentMetrics'
 import MarketComparison from './charts/MarketComparison'
+import LLMMarketShare from './charts/LLMMarketShare'
 
 export const components: MDXComponents = {
   Image,
@@ -19,4 +20,5 @@ export const components: MDXComponents = {
   CloudRevenue,
   InvestmentMetrics,
   MarketComparison,
+  LLMMarketShare,
 }
