@@ -9,6 +9,7 @@ import CloudRevenue from './charts/CloudRevenue'
 import InvestmentMetrics from './charts/InvestmentMetrics'
 import MarketComparison from './charts/MarketComparison'
 import LLMMarketShare from './charts/LLMMarketShare'
+import CriteriaForGenAI from './charts/CriteriaForGenAI'
 
 export const components: MDXComponents = {
   Image,
@@ -21,4 +22,5 @@ export const components: MDXComponents = {
   InvestmentMetrics,
   MarketComparison,
   LLMMarketShare,
+  CriteriaForGenAI,
 }
