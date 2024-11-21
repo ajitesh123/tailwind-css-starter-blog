@@ -7,6 +7,7 @@ import CustomLink from './Link'
 import TableWrapper from './TableWrapper'
 import CloudRevenue from './charts/CloudRevenue'
 import InvestmentMetrics from './charts/InvestmentMetrics'
+import MarketComparison from './charts/MarketComparison'
 
 export const components: MDXComponents = {
   Image,
@@ -17,4 +18,5 @@ export const components: MDXComponents = {
   BlogNewsletterForm,
   CloudRevenue,
   InvestmentMetrics,
+  MarketComparison,
 }
