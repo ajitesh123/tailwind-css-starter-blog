@@ -11,6 +11,7 @@ import MarketComparison from './charts/MarketComparison'
 import LLMMarketShare from './charts/LLMMarketShare'
 import CriteriaForGenAI from './charts/CriteriaForGenAI'
 import EnterpriseSpendCategories from './charts/EnterpriseSpendCategories'
+import EnterpriseSpendByDepartment from './charts/EnterpriseSpendByDepartment'
 
 export const components: MDXComponents = {
   Image,
@@ -25,4 +26,5 @@ export const components: MDXComponents = {
   LLMMarketShare,
   CriteriaForGenAI,
   EnterpriseSpendCategories,
+  EnterpriseSpendByDepartment,
 }
