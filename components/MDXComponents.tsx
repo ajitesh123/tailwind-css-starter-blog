@@ -12,6 +12,7 @@ import LLMMarketShare from './charts/LLMMarketShare'
 import CriteriaForGenAI from './charts/CriteriaForGenAI'
 import EnterpriseSpendCategories from './charts/EnterpriseSpendCategories'
 import EnterpriseSpendByDepartment from './charts/EnterpriseSpendByDepartment'
+import QuoteAnimation from './QuoteAnimation'
 
 export const components: MDXComponents = {
   Image,
@@ -27,4 +28,5 @@ export const components: MDXComponents = {
   CriteriaForGenAI,
   EnterpriseSpendCategories,
   EnterpriseSpendByDepartment,
+  QuoteAnimation,
 }
