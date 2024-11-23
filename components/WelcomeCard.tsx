@@ -5,29 +5,48 @@ import Image from './Image'
 import { useTheme } from 'next-themes'
 import { motion } from 'framer-motion'
 
-const TypewriterText = ({ text, delay = 50 }) => {
+interface TypewriterTextProps {
+  text: string
+  delay?: number
+}
+
+const TypewriterText: React.FC<TypewriterTextProps> = ({ text, delay = 50 }) => {
   const [displayText, setDisplayText] = useState('')
 
   useEffect(() => {
+    let isMounted = true
     let i = 0
     const timer = setInterval(() => {
-      if (i < text.length) {
-        setDisplayText((prev) => prev + text.charAt(i))
-        i++
-      } else {
-        clearInterval(timer)
+      if (isMounted) {
+        if (i < text.length) {
+          setDisplayText((prev) => prev + text.charAt(i))
+          i++
+        } else {
+          clearInterval(timer)
+        }
       }
     }, delay)
 
-    return () => clearInterval(timer)
+    return () => {
+      isMounted = false
+      clearInterval(timer)
+    }
   }, [text, delay])
 
-  return <span>{displayText}</span>
+  return <span className="text-black/80 dark:text-gray-300">{displayText}</span>
 }
 
 export default function WelcomeCard() {
-  const { resolvedTheme } = useTheme()
-  const isDark = resolvedTheme === 'dark'
+  const { resolvedTheme, theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return null
+  }
 
   return (
     <motion.div
@@ -35,8 +54,8 @@ export default function WelcomeCard() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       className={`bg-gradient-animate mb-8 overflow-hidden rounded-lg backdrop-blur-sm ${
-        isDark
-          ? 'from-purple-900/90 via-pink-900/90 to-red-900/90'
+        resolvedTheme === 'dark'
+          ? 'from-purple-900/70 via-pink-900/70 to-red-900/70'
           : 'from-purple-400/90 via-pink-500/90 to-red-500/90'
       } transition-all duration-300 hover:shadow-xl`}
     >
@@ -61,17 +80,15 @@ export default function WelcomeCard() {
           transition={{ delay: 0.2 }}
           className="flex flex-col justify-center space-y-4 p-6 md:w-2/3"
         >
-          <h2
-            className={`text-3xl font-bold tracking-tight ${isDark ? 'text-white' : 'text-black'}`}
-          >
+          <h2 className="text-3xl font-bold tracking-tight text-black dark:text-gray-100">
             Hi, I'm Ajitesh
           </h2>
-          <p className={`text-xl font-medium ${isDark ? 'text-white/90' : 'text-black/90'}`}>
+          <p className="text-xl font-medium text-black/90 dark:text-gray-200">
             Welcome to my blog!
           </p>
-          <p className={`prose leading-relaxed ${isDark ? 'text-white/80' : 'text-black/80'}`}>
+          <p className="prose leading-relaxed text-black/80 dark:text-gray-300">
             <TypewriterText
-              text="I've been a developer and product manager for the last 10 years. I'm currently cofounder and CEO of Archie AI. Most recently I worked as Product Manager in Google Cloud."
+              text="I've been a developer and product manager. I'm currently cofounder and CEO of Archie AI. Most recently I worked as Product Manager in Google Cloud."
               delay={40}
             />
           </p>
