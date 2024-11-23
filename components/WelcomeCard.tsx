@@ -31,28 +31,28 @@ export default function WelcomeCard() {
 
   return (
     <div
-      className={`mb-8 overflow-hidden rounded-lg border-2 border-gray-200 border-opacity-60 dark:border-gray-700 ${
-        isDark ? 'bg-gray-900' : 'bg-white'
+      className={`mb-8 overflow-hidden rounded-lg ${
+        isDark
+          ? 'bg-gradient-to-r from-purple-900 via-pink-900 to-red-900'
+          : 'bg-gradient-to-r from-purple-400 via-pink-500 to-red-500'
       }`}
     >
       <div className="flex flex-col md:flex-row">
         <div className="flex items-center justify-center p-6 md:w-1/3">
-          <div className="h-48 w-48 overflow-hidden rounded-full">
+          <div className="h-48 w-48 overflow-hidden rounded-full bg-white/10 p-1">
             <Image
-              src="/static/images/avatar.png"
+              src="/static/images/ajitesh.png"
               alt="Avatar"
               width={192}
               height={192}
-              className="object-cover"
+              className="rounded-full object-cover"
             />
           </div>
         </div>
         <div className="flex flex-col justify-center space-y-4 p-6 md:w-2/3">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-            Hi, I'm {siteMetadata.author}
-          </h2>
-          <p className="text-lg text-gray-700 dark:text-gray-300">Developer and Product Manager</p>
-          <p className="prose text-gray-500 dark:text-gray-400">
+          <h2 className="text-2xl font-bold text-white">Hi, I'm Ajitesh</h2>
+          <p className="text-lg text-white/90">Developer and Product Manager</p>
+          <p className="prose text-white/80">
             <TypewriterText
               text="I'm currently cofounder and CEO of Archie AI. Most recently I worked as Product Manager in Google Cloud."
               delay={40}
