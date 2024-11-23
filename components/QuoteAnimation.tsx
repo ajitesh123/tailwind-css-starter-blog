@@ -81,7 +81,7 @@ export default function QuoteAnimation() {
       className={`flex min-h-[400px] items-center justify-center ${isDark ? 'bg-gradient-to-r from-purple-900 via-pink-900 to-red-900' : 'bg-gradient-to-r from-purple-400 via-pink-500 to-red-500'}`}
     >
       <div
-        className={`mx-4 w-full max-w-2xl rounded-lg p-6 ${isDark ? 'bg-gray-900' : 'bg-white'} shadow-xl`}
+        className={`mx-4 w-full max-w-2xl rounded-lg p-6 ${isDark ? 'bg-white' : 'bg-white'} shadow-xl`}
       >
         <AnimatePresence mode="wait">
           <motion.div
@@ -93,11 +93,11 @@ export default function QuoteAnimation() {
             className="text-center"
           >
             <blockquote
-              className={`mb-4 text-xl font-semibold md:text-2xl ${isDark ? 'text-white' : 'text-gray-900'}`}
+              className={`mb-4 text-xl font-semibold md:text-2xl ${isDark ? 'text-gray-900' : 'text-gray-900'}`}
             >
               &ldquo;{quotes[currentQuoteIndex].text}&rdquo;
             </blockquote>
-            <cite className={`text-sm md:text-base ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+            <cite className={`text-sm md:text-base ${isDark ? 'text-gray-600' : 'text-gray-600'}`}>
               - {quotes[currentQuoteIndex].author}
             </cite>
           </motion.div>
