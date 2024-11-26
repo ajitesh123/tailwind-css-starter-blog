@@ -1,5 +1,7 @@
 {
   "ai": 4,
+  "ux": 1,
+  "product-design": 1,
   "cloud": 1,
   "technology": 1,
   "personal": 4,
@@ -22,8 +24,6 @@
   "pytest": 1,
   "coding": 1,
   "best-practices": 1,
-  "ux": 1,
-  "product-design": 1,
   "metrics": 1,
   "design-thinking": 3,
   "prd": 1,
