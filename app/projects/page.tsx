@@ -90,6 +90,29 @@ export default function Projects() {
               </a>
             </div>
           </div>
+
+          {/* AI Performance Review Project - Spanning full width */}
+          <div className="space-y-4 text-center md:col-span-2">
+            <h2 className="text-2xl font-bold text-white">AI Performance Review</h2>
+            <div className="mx-auto max-w-2xl overflow-hidden rounded-lg border border-gray-200/20">
+              <a href="https://www.tryarchieai.com/" target="_blank" rel="noopener noreferrer">
+                <img
+                  src="/static/gif/simplehrai.gif"
+                  alt="AI Performance Review"
+                  className="h-auto w-full border border-black/20 object-cover"
+                />
+                <div className="bg-gray-800 p-4">
+                  <h3 className="mb-2 text-xl font-semibold text-white">
+                    AI Performance Review: Write Better Reviews in Minutes
+                  </h3>
+                  <p className="mb-4 text-sm text-white/70">
+                    A voice-first AI tool that helps managers write insightful and personalized
+                    performance reviews quickly and efficiently.
+                  </p>
+                </div>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
