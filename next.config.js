@@ -13,7 +13,7 @@ const ContentSecurityPolicy = `
   media-src *.s3.amazonaws.com;
   connect-src *;
   font-src 'self';
-  frame-src giscus.app www.loom.com www.youtube.com open.spotify.com
+  frame-src giscus.app www.loom.com www.youtube.com open.spotify.com www.toughtongueai.com
 `
 
 const securityHeaders = [
