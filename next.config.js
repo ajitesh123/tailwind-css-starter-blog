@@ -50,7 +50,8 @@ const securityHeaders = [
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy
   {
     key: 'Permissions-Policy',
-    value: 'camera=(), microphone=(), geolocation=()',
+    value:
+      'microphone=(), camera=(), geolocation=(), microphone=(self "https://www.toughtongueai.com")',
   },
 ]
 
@@ -83,8 +84,14 @@ module.exports = () => {
     async headers() {
       return [
         {
-          source: '/(.*)',
-          headers: securityHeaders,
+          source: '/:path*',
+          headers: [
+            {
+              key: 'Content-Security-Policy',
+              value:
+                "default-src 'self'; connect-src 'self' https://api-gateway.umami.dev; frame-src 'self' https://www.toughtongueai.com https://open.spotify.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' 'unsafe-eval';",
+            },
+          ],
         },
       ]
     },
