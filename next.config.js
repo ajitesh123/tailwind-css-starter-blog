@@ -13,7 +13,7 @@ const ContentSecurityPolicy = `
   media-src *.s3.amazonaws.com;
   connect-src *;
   font-src 'self';
-  frame-src giscus.app www.loom.com www.youtube.com open.spotify.com www.app.toughtongueai.com
+  frame-src giscus.app www.loom.com www.youtube.com open.spotify.com app.toughtongueai.com
 `
 
 const securityHeaders = [
@@ -51,7 +51,7 @@ const securityHeaders = [
   {
     key: 'Permissions-Policy',
     value:
-      'microphone=(), camera=(), geolocation=(), microphone=(self "https://www.toughtongueai.com")',
+      'microphone=(), camera=(), geolocation=(), microphone=(self "https://app.toughtongueai.com")',
   },
 ]
 
@@ -89,7 +89,7 @@ module.exports = () => {
             {
               key: 'Content-Security-Policy',
               value:
-                "default-src 'self'; connect-src 'self' https://api-gateway.umami.dev; frame-src 'self' https://www.toughtongueai.com https://open.spotify.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' 'unsafe-eval';",
+                "default-src 'self'; connect-src 'self' https://api-gateway.umami.dev; frame-src 'self' https://app.toughtongueai.com https://open.spotify.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' 'unsafe-eval';",
             },
           ],
         },
