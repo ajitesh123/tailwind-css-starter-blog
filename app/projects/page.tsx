@@ -51,12 +51,12 @@ export default function Projects() {
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">PM Interview Prep</h2>
             <div className="mx-auto max-w-md overflow-hidden rounded-lg border border-gray-200/20">
               <a
-                href="https://pm-interview-prep1.teachable.com/p/a-simple-approach-to-product-management-interviews"
+                href="https://pm-interview-prep1.teachable.com/p/pm-interview-course?preview=logged_out"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <img
-                  src="https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://cdn.filestackcontent.com/wHjiw0oJRSZTBXbBd0ty"
+                  src="/static/images/pm.webp"
                   alt="PM Interview Prep Course"
                   className="h-auto w-full border border-black/20 object-cover"
                 />
@@ -65,8 +65,8 @@ export default function Projects() {
                     Product Management Interviews
                   </h3>
                   <div className="space-y-2 text-sm text-white/70">
-                    <div>Subscription: 7 day free trial, $5/month</div>
-                    <div>One-Time Purchase: $50</div>
+                    <div>Weekly Subscription: $10/week</div>
+                    <div>Lifetime Access: $50</div>
                   </div>
                 </div>
               </a>
