@@ -66,7 +66,7 @@ export default function WelcomeCard() {
         >
           <div className="h-48 w-48 overflow-hidden rounded-full bg-gray-900/20 p-2 shadow-lg ring-4 ring-white/10">
             <Image
-              src="/static/images/ajitesh.png"
+              src="/static/images/ajitesh_1.jpg"
               alt="Avatar"
               width={192}
               height={192}
