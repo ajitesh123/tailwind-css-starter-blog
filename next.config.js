@@ -8,11 +8,11 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const ContentSecurityPolicy = `
   default-src 'self';
   script-src 'self' 'unsafe-eval' 'unsafe-inline' giscus.app analytics.umami.is www.googletagmanager.com www.google-analytics.com;
-  style-src 'self' 'unsafe-inline';
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   img-src * blob: data:;
   media-src *.s3.amazonaws.com;
-  connect-src *;
-  font-src 'self';
+  connect-src * https://api-gateway.umami.dev;
+  font-src 'self' https://fonts.gstatic.com;
   frame-src giscus.app www.loom.com www.youtube.com open.spotify.com app.toughtongueai.com
 `
 
@@ -85,13 +85,7 @@ module.exports = () => {
       return [
         {
           source: '/:path*',
-          headers: [
-            {
-              key: 'Content-Security-Policy',
-              value:
-                "default-src 'self'; connect-src 'self' https://api-gateway.umami.dev; frame-src 'self' https://app.toughtongueai.com https://open.spotify.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' 'unsafe-eval';",
-            },
-          ],
+          headers: securityHeaders,
         },
       ]
     },
