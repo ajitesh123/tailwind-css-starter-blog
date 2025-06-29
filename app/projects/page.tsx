@@ -73,6 +73,34 @@ export default function Projects() {
             </div>
           </div>
 
+          {/* Amazon Book */}
+          <div className="space-y-4 text-center md:col-span-2">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">PM Interview Book</h2>
+            <div className="mx-auto max-w-2xl overflow-hidden rounded-lg border border-gray-200/20">
+              <a
+                href="https://www.amazon.com/Simple-Approach-Product-Manager-Interviews-ebook/dp/B0FF1MSDWD/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="/static/images/pm_strategy.webp"
+                  alt="A Simple Approach to Product Manager Interviews Book"
+                  className="h-auto w-full border border-black/20 object-cover"
+                />
+                <div className="bg-gray-800 p-4">
+                  <h3 className="mb-2 text-xl font-semibold text-white">
+                    A Simple Approach to Product Manager Interviews
+                  </h3>
+                  <p className="mb-4 text-sm text-white/70">
+                    Master PM interviews with proven strategies and real interview examples from top
+                    tech companies.
+                  </p>
+                  <div className="text-sm text-white/80">Available on Amazon</div>
+                </div>
+              </a>
+            </div>
+          </div>
+
           {/* Archie AI Project - Spanning full width */}
           <div className="space-y-4 text-center md:col-span-2">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Archie AI</h2>
