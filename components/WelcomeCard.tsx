@@ -66,7 +66,7 @@ export default function WelcomeCard() {
         >
           <div className="h-48 w-48 overflow-hidden rounded-full bg-gray-900/20 p-2 shadow-lg ring-4 ring-white/10">
             <Image
-              src="/static/images/ajitesh_1.jpg"
+              src="/static/images/ajitesh.png"
               alt="Avatar"
               width={192}
               height={192}
@@ -88,7 +88,7 @@ export default function WelcomeCard() {
           </p>
           <p className="prose leading-relaxed text-black/80 dark:text-gray-300">
             <TypewriterText
-              text="I've been a developer and product manager. I'm currently cofounder and CEO of Archie AI. Most recently I worked as Product Manager in Google Cloud."
+              text="I've been a developer and product manager. I'm currently cofounder and CEO of Tough Tongue AI. Most recently I worked as Product Manager in Google Cloud."
               delay={40}
             />
           </p>
